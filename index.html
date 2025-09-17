@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Collaborative p5.js Draw</title>
+  <style>
+    :root { --ui:#222; --bg:#111; --panel:#1b1b1b; --text:#eaeaea; }
+    body{ margin:0; background:var(--bg); color:var(--text); font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; }
+    header{ display:flex; align-items:center; gap:.75rem; padding:.75rem 1rem; background:var(--panel); position:sticky; top:0; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,.25); }
+    .pill{ background:#2a2a2a; border:1px solid #333; border-radius:999px; padding:.4rem .7rem; display:inline-flex; gap:.5rem; align-items:center; }
+    .row{ display:flex; gap:.75rem; align-items:center; flex-wrap:wrap; }
+    .spacer{ flex:1; }
+    label{ font-size:.9rem; opacity:.9; }
+    input[type="color"]{ width:2rem; height:2rem; padding:0; border:none; background:transparent; }
+    input[type="range"]{ accent-color:#888; }
+    button{ background:#2a2a2a; color:var(--text); border:1px solid #3a3a3a; border-radius:10px; padding:.55rem .8rem; cursor:pointer; }
+    button:hover{ background:#333; }
+    #status{ font-size:.85rem; opacity:.8; }
+    #canvas-holder{ position:relative; }
+    .cursor-dot{ position:absolute; width:10px; height:10px; border-radius:50%; pointer-events:none; mix-blend-mode:screen; transform:translate(-50%,-50%); }
+  </style>
+
+  <!-- p5.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.2/p5.min.js"></script>
+
+  <!-- Firebase (compat builds) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+  <!-- Your app code -->
+  <script defer src="draw_narrative.js"></script>
+</head>
+<body>
+  <header>
+    <div class="row">
+      <strong>Collaborative p5 Draw</strong>
+      <span class="pill">Room: <code id="room-id"></code></span>
+      <span class="pill">User: <code id="user-id"></code></span>
+    </div>
+    <div class="spacer"></div>
+    <div class="row">
+      <label>Color <input type="color" id="color" value="#00e0ff" /></label>
+      <label>Size <input type="range" id="size" min="1" max="40" value="6" /></label>
+      <button id="eraser">Eraser</button>
+      <button id="pen">Pen</button>
+      <button id="clear">Clear Room</button>
+      <!-- NEW: Save image button -->
+      <button id="save">Save PNG</button>
+      <span id="status">● initializing…</span>
+    </div>
+  </header>
+  <div id="canvas-holder"></div>
+</body>
+</html>
